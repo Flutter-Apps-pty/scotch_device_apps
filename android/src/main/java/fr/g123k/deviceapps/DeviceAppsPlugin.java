@@ -184,6 +184,10 @@ public class DeviceAppsPlugin implements
         return installedApps;
     }
 
+//    Intent intent = new Intent(context, MyRootActivity.class);
+//    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//    startActivity(intent);
+
     private boolean openApp(@NonNull String packageName) {
         if (!isAppInstalled(packageName)) {
             Log.w(LOG_TAG, "Application with package name \"" + packageName + "\" is not installed on this device");
@@ -191,8 +195,10 @@ public class DeviceAppsPlugin implements
         }
 
         Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
         if (IntentUtils.isIntentOpenable(launchIntent, context)) {
+            // launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             context.startActivity(launchIntent);
             return true;
         }
